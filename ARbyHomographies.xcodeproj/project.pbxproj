@@ -1,0 +1,293 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7CEE7E821E8895EE003F0275 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CEE7E811E8895EE003F0275 /* main.cpp */; };
+		7CEE7E8D1E88ACDF003F0275 /* libopencv_calib3d.3.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEE7E891E88ACDF003F0275 /* libopencv_calib3d.3.1.0.dylib */; };
+		7CEE7E8E1E88ACDF003F0275 /* libopencv_features2d.3.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEE7E8A1E88ACDF003F0275 /* libopencv_features2d.3.1.0.dylib */; };
+		7CEE7E8F1E88ACDF003F0275 /* libopencv_highgui.3.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEE7E8B1E88ACDF003F0275 /* libopencv_highgui.3.1.0.dylib */; };
+		7CEE7E901E88ACDF003F0275 /* libopencv_core.3.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEE7E8C1E88ACDF003F0275 /* libopencv_core.3.1.0.dylib */; };
+		7CEE7E921E88ADFF003F0275 /* libopencv_xfeatures2d.3.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEE7E911E88ADFF003F0275 /* libopencv_xfeatures2d.3.1.0.dylib */; };
+		7CEE7E941E88B9C9003F0275 /* libopencv_imgcodecs.3.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEE7E931E88B9C9003F0275 /* libopencv_imgcodecs.3.1.0.dylib */; };
+		7CEE7E961E88EA53003F0275 /* libopencv_objdetect.3.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEE7E951E88EA53003F0275 /* libopencv_objdetect.3.1.0.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7CEE7E7C1E8895ED003F0275 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		7CEE7E7E1E8895EE003F0275 /* ARbyHomographies */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ARbyHomographies; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CEE7E811E8895EE003F0275 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7CEE7E891E88ACDF003F0275 /* libopencv_calib3d.3.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_calib3d.3.1.0.dylib; path = ../../../../usr/local/lib/libopencv_calib3d.3.1.0.dylib; sourceTree = "<group>"; };
+		7CEE7E8A1E88ACDF003F0275 /* libopencv_features2d.3.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_features2d.3.1.0.dylib; path = ../../../../usr/local/lib/libopencv_features2d.3.1.0.dylib; sourceTree = "<group>"; };
+		7CEE7E8B1E88ACDF003F0275 /* libopencv_highgui.3.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.3.1.0.dylib; path = ../../../../usr/local/lib/libopencv_highgui.3.1.0.dylib; sourceTree = "<group>"; };
+		7CEE7E8C1E88ACDF003F0275 /* libopencv_core.3.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.3.1.0.dylib; path = ../../../../usr/local/lib/libopencv_core.3.1.0.dylib; sourceTree = "<group>"; };
+		7CEE7E911E88ADFF003F0275 /* libopencv_xfeatures2d.3.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_xfeatures2d.3.1.0.dylib; path = ../../../../usr/local/lib/libopencv_xfeatures2d.3.1.0.dylib; sourceTree = "<group>"; };
+		7CEE7E931E88B9C9003F0275 /* libopencv_imgcodecs.3.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_imgcodecs.3.1.0.dylib; path = ../../../../usr/local/lib/libopencv_imgcodecs.3.1.0.dylib; sourceTree = "<group>"; };
+		7CEE7E951E88EA53003F0275 /* libopencv_objdetect.3.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_objdetect.3.1.0.dylib; path = ../../../../usr/local/lib/libopencv_objdetect.3.1.0.dylib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7CEE7E7B1E8895ED003F0275 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CEE7E961E88EA53003F0275 /* libopencv_objdetect.3.1.0.dylib in Frameworks */,
+				7CEE7E941E88B9C9003F0275 /* libopencv_imgcodecs.3.1.0.dylib in Frameworks */,
+				7CEE7E921E88ADFF003F0275 /* libopencv_xfeatures2d.3.1.0.dylib in Frameworks */,
+				7CEE7E8D1E88ACDF003F0275 /* libopencv_calib3d.3.1.0.dylib in Frameworks */,
+				7CEE7E8E1E88ACDF003F0275 /* libopencv_features2d.3.1.0.dylib in Frameworks */,
+				7CEE7E8F1E88ACDF003F0275 /* libopencv_highgui.3.1.0.dylib in Frameworks */,
+				7CEE7E901E88ACDF003F0275 /* libopencv_core.3.1.0.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7CEE7E751E8895ED003F0275 = {
+			isa = PBXGroup;
+			children = (
+				7CEE7E801E8895EE003F0275 /* ARbyHomographies */,
+				7CEE7E7F1E8895EE003F0275 /* Products */,
+				7CEE7E881E88ACDF003F0275 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		7CEE7E7F1E8895EE003F0275 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7CEE7E7E1E8895EE003F0275 /* ARbyHomographies */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7CEE7E801E8895EE003F0275 /* ARbyHomographies */ = {
+			isa = PBXGroup;
+			children = (
+				7CEE7E811E8895EE003F0275 /* main.cpp */,
+			);
+			path = ARbyHomographies;
+			sourceTree = "<group>";
+		};
+		7CEE7E881E88ACDF003F0275 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7CEE7E951E88EA53003F0275 /* libopencv_objdetect.3.1.0.dylib */,
+				7CEE7E931E88B9C9003F0275 /* libopencv_imgcodecs.3.1.0.dylib */,
+				7CEE7E911E88ADFF003F0275 /* libopencv_xfeatures2d.3.1.0.dylib */,
+				7CEE7E891E88ACDF003F0275 /* libopencv_calib3d.3.1.0.dylib */,
+				7CEE7E8A1E88ACDF003F0275 /* libopencv_features2d.3.1.0.dylib */,
+				7CEE7E8B1E88ACDF003F0275 /* libopencv_highgui.3.1.0.dylib */,
+				7CEE7E8C1E88ACDF003F0275 /* libopencv_core.3.1.0.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7CEE7E7D1E8895ED003F0275 /* ARbyHomographies */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7CEE7E851E8895EE003F0275 /* Build configuration list for PBXNativeTarget "ARbyHomographies" */;
+			buildPhases = (
+				7CEE7E7A1E8895ED003F0275 /* Sources */,
+				7CEE7E7B1E8895ED003F0275 /* Frameworks */,
+				7CEE7E7C1E8895ED003F0275 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ARbyHomographies;
+			productName = ARbyHomographies;
+			productReference = 7CEE7E7E1E8895EE003F0275 /* ARbyHomographies */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7CEE7E761E8895ED003F0275 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = boyang;
+				TargetAttributes = {
+					7CEE7E7D1E8895ED003F0275 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 7CEE7E791E8895ED003F0275 /* Build configuration list for PBXProject "ARbyHomographies" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7CEE7E751E8895ED003F0275;
+			productRefGroup = 7CEE7E7F1E8895EE003F0275 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7CEE7E7D1E8895ED003F0275 /* ARbyHomographies */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7CEE7E7A1E8895ED003F0275 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CEE7E821E8895EE003F0275 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		7CEE7E831E8895EE003F0275 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7CEE7E841E8895EE003F0275 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		7CEE7E861E8895EE003F0275 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7CEE7E871E8895EE003F0275 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7CEE7E791E8895ED003F0275 /* Build configuration list for PBXProject "ARbyHomographies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CEE7E831E8895EE003F0275 /* Debug */,
+				7CEE7E841E8895EE003F0275 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7CEE7E851E8895EE003F0275 /* Build configuration list for PBXNativeTarget "ARbyHomographies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CEE7E861E8895EE003F0275 /* Debug */,
+				7CEE7E871E8895EE003F0275 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7CEE7E761E8895ED003F0275 /* Project object */;
+}
