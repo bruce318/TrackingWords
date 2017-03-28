@@ -14,6 +14,7 @@
 #include "opencv2/xfeatures2d.hpp"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/objdetect.hpp"
+#include "opencv2/imgproc.hpp"
 
 using namespace cv;
 using namespace cv::xfeatures2d;
@@ -21,7 +22,7 @@ using namespace cv::xfeatures2d;
 int main(int argc, const char * argv[]) {
 
     Mat img_object = imread("/Users/boyang/workspace/ARbyHomographies/src/IMG_6202.JPG", IMREAD_GRAYSCALE );
-    Mat img_scene = imread("/Users/boyang/workspace/ARbyHomographies/src/IMG_6203.JPG", IMREAD_GRAYSCALE );
+    Mat img_scene = imread("/Users/boyang/workspace/ARbyHomographies/src/IMG_6206.JPG", IMREAD_GRAYSCALE );
     
 //    imshow("Keypoints 1", img_1 );
 //    imshow("Keypoints 2", img_2 );
@@ -95,8 +96,10 @@ int main(int argc, const char * argv[]) {
     std::vector< DMatch > good_matches;
     
     for( int i = 0; i < descriptors_object.rows; i++ )
-    { if( matches[i].distance < 3*min_dist )
-    { good_matches.push_back( matches[i]); }
+    {
+        if( matches[i].distance < 3*min_dist ){
+            good_matches.push_back( matches[i]);
+        }
     }
     
     Mat img_matches;
@@ -107,6 +110,7 @@ int main(int argc, const char * argv[]) {
     //-- Localize the object
     std::vector<Point2f> obj;
     std::vector<Point2f> scene;
+    
     
     for( int i = 0; i < good_matches.size(); i++ )
     {
@@ -119,20 +123,34 @@ int main(int argc, const char * argv[]) {
     
     //-- Get the corners from the image_1 ( the object to be "detected" )
     std::vector<Point2f> obj_corners(4);
-    obj_corners[0] = cvPoint(0,0); obj_corners[1] = cvPoint( img_object.cols, 0 );
-    obj_corners[2] = cvPoint( img_object.cols, img_object.rows ); obj_corners[3] = cvPoint( 0, img_object.rows );
+//    obj_corners[0] = cvPoint(0,0); obj_corners[1] = cvPoint( img_object.cols, 0 );
+//    obj_corners[2] = cvPoint( img_object.cols, img_object.rows ); obj_corners[3] = cvPoint( 0, img_object.rows );
+    
+    
+    obj_corners[0] = cvPoint(200,200); obj_corners[1] = cvPoint( 400, 200 );
+    obj_corners[2] = cvPoint( 400, 400); obj_corners[3] = cvPoint( 200, 400 );
+    
+    
     std::vector<Point2f> scene_corners(4);
     
     perspectiveTransform( obj_corners, scene_corners, H);
     
     
-//    cvCircle (&img_matches, Point( 0, 0), 10,  Scalar(0, 255, 0));
-//    cvLine ( &img_matches, Point( 0, 0), Point( 100, 100), Scalar(0, 255, 0), 4 );
+    
+    //original line
+    line( img_matches, obj_corners[0], obj_corners[1], Scalar(0, 255, 0), 4 );
+    line( img_matches, obj_corners[1], obj_corners[2], Scalar( 0, 255, 0), 4 );
+    line( img_matches, obj_corners[2], obj_corners[3], Scalar( 0, 255, 0), 4 );
+    line( img_matches, obj_corners[3], obj_corners[0], Scalar( 0, 255, 0), 4 );
+    
+    
+    
+    
     //-- Draw lines between the corners (the mapped object in the scene - image_2 )
-//    cvLine( &img_matches, scene_corners[0] + Point2f( img_object.cols, 0), scene_corners[1] + Point2f( img_object.cols, 0), Scalar(0, 255, 0), 4 );
-//    cvLine( &img_matches, scene_corners[1] + Point2f( img_object.cols, 0), scene_corners[2] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
-//    cvLine( &img_matches, scene_corners[2] + Point2f( img_object.cols, 0), scene_corners[3] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
-//    cvLine( &img_matches, scene_corners[3] + Point2f( img_object.cols, 0), scene_corners[0] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
+    line( img_matches, scene_corners[0] + Point2f( img_object.cols, 0), scene_corners[1] + Point2f( img_object.cols, 0), Scalar(0, 255, 0), 4 );
+    line( img_matches, scene_corners[1] + Point2f( img_object.cols, 0), scene_corners[2] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
+    line( img_matches, scene_corners[2] + Point2f( img_object.cols, 0), scene_corners[3] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
+    line( img_matches, scene_corners[3] + Point2f( img_object.cols, 0), scene_corners[0] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
     
     //-- Show detected matches
     imshow( "Good Matches & Object detection", img_matches );
