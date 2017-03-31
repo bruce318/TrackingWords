@@ -19,11 +19,26 @@
 using namespace cv;
 using namespace cv::xfeatures2d;
 
+//golbal var
+std::vector<Point2f> obj_corners;
+
+//Get the coordinates
+void onMouse( int event, int x, int y, int, void* )
+{
+    if( event != CV_EVENT_LBUTTONDOWN )
+        return;
+    
+    Point2f pt = Point2f(x,y);
+    obj_corners.push_back(pt);
+    std::cout<<"x="<<pt.x<<"\t y="<<pt.y<<"\n";
+    
+}
+
 int main(int argc, const char * argv[]) {
     
     //read file
     std::vector<String> fileNames;
-    String folder = "/Users/boyang/workspace/ARbyHomographies/src2/";
+    String folder = "/Users/boyang/workspace/ARbyHomographies/src3/";
     glob(folder, fileNames);
     
     //load first frame
@@ -40,17 +55,23 @@ int main(int argc, const char * argv[]) {
     img_object.copyTo(img_object_copy);
     cvtColor(img_object_copy, img_object_copy, COLOR_GRAY2BGR);
     
-    //define the bounding box
-    std::vector<Point2f> obj_corners(4);
-    obj_corners[0] = cvPoint(200,200); obj_corners[1] = cvPoint( 400, 200 );
-    obj_corners[2] = cvPoint( 400, 400); obj_corners[3] = cvPoint( 200, 400 );
-    //draw bounding box
-    line( img_object_copy, obj_corners[0], obj_corners[1], Scalar(0, 255, 0), 4 );
-    line( img_object_copy, obj_corners[1], obj_corners[2], Scalar( 0, 255, 0), 4 );
-    line( img_object_copy, obj_corners[2], obj_corners[3], Scalar( 0, 255, 0), 4 );
-    line( img_object_copy, obj_corners[3], obj_corners[0], Scalar( 0, 255, 0), 4 );
-    //show the first frame image
-    imshow( "ori_image_col", img_object_copy );
+    namedWindow("ori_image_col");
+    setMouseCallback( "ori_image_col", onMouse, 0 );
+    
+    while(obj_corners.size() < 4){
+        
+
+        //draw bounding box
+//        line( img_object_copy, obj_corners[0], obj_corners[1], Scalar(0, 255, 0), 4 );
+//        line( img_object_copy, obj_corners[1], obj_corners[2], Scalar( 0, 255, 0), 4 );
+//        line( img_object_copy, obj_corners[2], obj_corners[3], Scalar( 0, 255, 0), 4 );
+//        line( img_object_copy, obj_corners[3], obj_corners[0], Scalar( 0, 255, 0), 4 );
+        //show the first frame image
+        imshow( "ori_image_col", img_object_copy );
+        
+        waitKey(0);
+    
+    }
     
     
     //init detector
@@ -85,16 +106,16 @@ int main(int argc, const char * argv[]) {
             std::cout<< " --(!) Error reading images " << std::endl; return -1;
         }
         
-        //-- Step 1: Detect the keypoints using SURF Detector
+        // Detect the keypoints using SURF Detector
 
         detector->detect( img_scene, keypoints_scene );
         
-        //-- Step 2: Calculate descriptors (feature vectors)
+        // Calculate descriptors (feature vectors)
         
         
         extractor->compute( img_scene, keypoints_scene, descriptors_scene );
         
-        //-- Step 3: Matching descriptor vectors using FLANN matcher
+        // Matching descriptor vectors using FLANN matcher
         //FlannBasedMatcher matcher;
 
         std::vector< DMatch > matches;
@@ -151,14 +172,14 @@ int main(int argc, const char * argv[]) {
             perspectiveTransform( obj_corners, scene_corners, H);
             
             
-//          // -- Draw lines between the corners (the mapped object in the scene - image_2 )
-//                line( img_matches, scene_corners[0] + Point2f( img_object.cols, 0), scene_corners[1] + Point2f( img_object.cols, 0), Scalar(0, 255, 0), 4 );
-//                line( img_matches, scene_corners[1] + Point2f( img_object.cols, 0), scene_corners[2] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
-//                line( img_matches, scene_corners[2] + Point2f( img_object.cols, 0), scene_corners[3] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
-//                line( img_matches, scene_corners[3] + Point2f( img_object.cols, 0), scene_corners[0] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
+          // -- Draw lines between the corners (the mapped object in the scene - image_2 )
+//            line( img_matches, scene_corners[0] + Point2f( img_object.cols, 0), scene_corners[1] + Point2f( img_object.cols, 0), Scalar(0, 255, 0), 4 );
+//            line( img_matches, scene_corners[1] + Point2f( img_object.cols, 0), scene_corners[2] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
+//            line( img_matches, scene_corners[2] + Point2f( img_object.cols, 0), scene_corners[3] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
+//            line( img_matches, scene_corners[3] + Point2f( img_object.cols, 0), scene_corners[0] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
 //            
-//        //-- Show detected matches
-//                imshow( "Good Matches & Object detection", img_matches );
+//            imshow( "Good Matches & Object detection", img_matches );
+            
             
             cvtColor(img_scene, img_scene, COLOR_GRAY2BGR);
             line( img_scene, scene_corners[0] , scene_corners[1] , Scalar(0, 255, 0), 4 );
