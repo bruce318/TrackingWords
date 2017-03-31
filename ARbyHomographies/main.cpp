@@ -20,9 +20,10 @@ using namespace cv;
 using namespace cv::xfeatures2d;
 
 //golbal var
+bool checkMatches = false;
 std::vector<Point2f> obj_corners;
 
-//Get the coordinates
+//Get the coordinates by mouse
 void onMouse( int event, int x, int y, int, void* )
 {
     if( event != CV_EVENT_LBUTTONDOWN )
@@ -38,7 +39,7 @@ int main(int argc, const char * argv[]) {
     
     //read file
     std::vector<String> fileNames;
-    String folder = "/Users/boyang/workspace/ARbyHomographies/src3/";
+    String folder = "/Users/boyang/workspace/ARbyHomographies/src2/";
     glob(folder, fileNames);
     
     //load first frame
@@ -66,7 +67,8 @@ int main(int argc, const char * argv[]) {
 //        line( img_object_copy, obj_corners[1], obj_corners[2], Scalar( 0, 255, 0), 4 );
 //        line( img_object_copy, obj_corners[2], obj_corners[3], Scalar( 0, 255, 0), 4 );
 //        line( img_object_copy, obj_corners[3], obj_corners[0], Scalar( 0, 255, 0), 4 );
-        //show the first frame image
+        
+        //Use mouse to get coordinates
         imshow( "ori_image_col", img_object_copy );
         
         waitKey(0);
@@ -171,13 +173,23 @@ int main(int argc, const char * argv[]) {
             std::vector<Point2f> scene_corners(4);
             perspectiveTransform( obj_corners, scene_corners, H);
             
-            
+            // -- Draw lines between the corners (the mapped object in the scene - image_2 )
+            if(checkMatches){
+            // -- Draw lines between the corners (the mapped object in the scene - image_2 )
+                line( img_matches, scene_corners[0] + Point2f( img_object.cols, 0), scene_corners[1] + Point2f( img_object.cols, 0), Scalar(0, 255, 0), 4 );
+                line( img_matches, scene_corners[1] + Point2f( img_object.cols, 0), scene_corners[2] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
+                line( img_matches, scene_corners[2] + Point2f( img_object.cols, 0), scene_corners[3] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
+                line( img_matches, scene_corners[3] + Point2f( img_object.cols, 0), scene_corners[0] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
+                
+                imshow( "Good Matches & Object detection", img_matches );
+            }
+
           // -- Draw lines between the corners (the mapped object in the scene - image_2 )
 //            line( img_matches, scene_corners[0] + Point2f( img_object.cols, 0), scene_corners[1] + Point2f( img_object.cols, 0), Scalar(0, 255, 0), 4 );
 //            line( img_matches, scene_corners[1] + Point2f( img_object.cols, 0), scene_corners[2] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
 //            line( img_matches, scene_corners[2] + Point2f( img_object.cols, 0), scene_corners[3] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
 //            line( img_matches, scene_corners[3] + Point2f( img_object.cols, 0), scene_corners[0] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
-//            
+//
 //            imshow( "Good Matches & Object detection", img_matches );
             
             
