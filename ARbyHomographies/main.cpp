@@ -20,7 +20,7 @@ using namespace cv;
 using namespace cv::xfeatures2d;
 
 //golbal var
-bool checkMatches = false;
+bool checkMatches = true;
 std::vector<Point2f> obj_corners;
 
 //Get the coordinates by mouse
@@ -35,11 +35,23 @@ void onMouse( int event, int x, int y, int, void* )
     
 }
 
+void eraseContentOutOfRoi(Mat & img, Point2f topLeft, Point2f bottomRight){
+    for(int i = 0 ; i < img.rows ; i++){
+        for(int j = 0 ; j < img.cols ; j++){
+            if(j < topLeft.x || j > bottomRight.x || i < topLeft.y || i > bottomRight.y){
+                img.at<Vec3b>(i,j)[0] = 255;
+                img.at<Vec3b>(i, j)[1] = 255;
+                img.at<Vec3b>(i, j)[2] = 255;
+            }
+        }
+    }
+}
+
 int main(int argc, const char * argv[]) {
     
     //read file
     std::vector<String> fileNames;
-    String folder = "/Users/boyang/workspace/ARbyHomographies/src2/";
+    String folder = "/Users/boyang/workspace/ARbyHomographies/src3/";
     glob(folder, fileNames);
     
     //load first frame
@@ -82,6 +94,13 @@ int main(int argc, const char * argv[]) {
     Ptr<SURF> detector = SURF::create( minHessian );
     
     std::vector<KeyPoint> keypoints_object, keypoints_scene;
+    
+    //adding of region of intrest
+    Mat roi = img_object(Rect(obj_corners[0].x , obj_corners[0].y , obj_corners[1].x - obj_corners[0].x , obj_corners[3].y - obj_corners[0].y));
+    
+    cvtColor(img_object, img_object, COLOR_GRAY2BGR);
+    eraseContentOutOfRoi(img_object, obj_corners[0], obj_corners[2]);
+    imshow( "temp", img_object );
     
     detector->detect( img_object, keypoints_object );
     
