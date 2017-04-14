@@ -34,10 +34,11 @@ void onMouse( int event, int x, int y, int, void* ) {
     
 }
 
+//Erase not interested region
 void eraseContentOutOfRoi(Mat & img, Point2f topLeft, Point2f bottomRight) {
-    for(int i = 0 ; i < img.rows ; i++){
-        for(int j = 0 ; j < img.cols ; j++){
-            if(j < topLeft.x || j > bottomRight.x || i < topLeft.y || i > bottomRight.y){
+    for (int i = 0 ; i < img.rows ; i++) {
+        for (int j = 0 ; j < img.cols ; j++) {
+            if (j < topLeft.x || j > bottomRight.x || i < topLeft.y || i > bottomRight.y){
                 img.at<Vec3b>(i,j)[0] = 0;
                 img.at<Vec3b>(i, j)[1] = 0;
                 img.at<Vec3b>(i, j)[2] = 0;
@@ -48,13 +49,13 @@ void eraseContentOutOfRoi(Mat & img, Point2f topLeft, Point2f bottomRight) {
 
 //Check the output bounding box is reasonable or not
 bool checkBoundingBox(std::vector<Point2f> scene_corners) {
-    //Too small
+    //Too small -> false
     if (scene_corners[1].x - scene_corners[0].x < 10 || scene_corners[3].y - scene_corners[0].y <10
         || scene_corners[2].x - scene_corners[3].x < 10 || scene_corners[2].y - scene_corners[1].y <10) {
         return false;
     }
     
-    //Still kind of rectangle
+    //Still kind of rectangle -> true
     if (scene_corners[0].x < scene_corners[1].x && scene_corners[0].y < scene_corners[3].y
         && scene_corners[2].x > scene_corners[3].x && scene_corners[2].y > scene_corners[1].y) {
         return true;
@@ -74,29 +75,19 @@ int main(int argc, const char * argv[]) {
     Mat img_object = imread(fileNames[0], IMREAD_GRAYSCALE );
     resize(img_object, img_object, Size(640, 480));
     
+    //Check load successful?
     if( !img_object.data) {
         std::cout<< " --(!) Error reading images " << std::endl; return -1;
     }
     
-    //show the bounding box in the object image
-    Mat img_object_copy;
-    img_object.copyTo(img_object_copy);
-    cvtColor(img_object_copy, img_object_copy, COLOR_GRAY2BGR);
+    //Select the bounding box in the image
+    namedWindow("select ROI region");
+    setMouseCallback( "select ROI region", onMouse, 0 );
     
-    namedWindow("ori_image_col");
-    setMouseCallback( "ori_image_col", onMouse, 0 );
-    
+    //Select at least 4 points and press any key
     while(obj_corners.size() < 4) {
-        
-
-        //draw bounding box
-//        line( img_object_copy, obj_corners[0], obj_corners[1], Scalar(0, 255, 0), 4 );
-//        line( img_object_copy, obj_corners[1], obj_corners[2], Scalar( 0, 255, 0), 4 );
-//        line( img_object_copy, obj_corners[2], obj_corners[3], Scalar( 0, 255, 0), 4 );
-//        line( img_object_copy, obj_corners[3], obj_corners[0], Scalar( 0, 255, 0), 4 );
-        
         //Use mouse to get coordinates
-        imshow( "ori_image_col", img_object_copy );
+        imshow( "select ROI region", img_object );
         
         waitKey(0);
     
@@ -105,35 +96,32 @@ int main(int argc, const char * argv[]) {
     
     //init detector
     int minHessian = 400;
-    
     Ptr<SURF> detector = SURF::create( minHessian );
-    
     std::vector<KeyPoint> keypoints_object, keypoints_scene;
     
     //adding of region of intrest
     Mat roi = img_object(Rect(obj_corners[0].x , obj_corners[0].y , obj_corners[1].x - obj_corners[0].x , obj_corners[3].y - obj_corners[0].y));
     
+    //Erase not interested region
     cvtColor(img_object, img_object, COLOR_GRAY2BGR);
     eraseContentOutOfRoi(img_object, obj_corners[0], obj_corners[2]);
     cvtColor(img_object, img_object, COLOR_BGR2GRAY);
-    imshow( "temp", img_object );
+//    imshow( "temp", img_object );
     
+    //detect points easy to track
     detector->detect( img_object, keypoints_object );
     
-    //init extractor
+    //init extractor and compute
     Ptr<SURF> extractor = SURF::create();
-    
     Mat descriptors_object, descriptors_scene;
-    
     extractor->compute( img_object, keypoints_object, descriptors_object );
-    
     
     //init matcher
     Ptr<FlannBasedMatcher> matcher = FlannBasedMatcher::create();
     
-    
     //loop through all the image in the file
     for(size_t i = 1 ; i < fileNames.size() ; i++) {
+        
         //load next image
         Mat img_scene = imread(fileNames[i], IMREAD_GRAYSCALE );
         resize(img_scene, img_scene, Size(640, 480));
@@ -143,73 +131,58 @@ int main(int argc, const char * argv[]) {
         }
         
         // Detect the keypoints using SURF Detector
-
         detector->detect( img_scene, keypoints_scene );
         
         // Calculate descriptors (feature vectors)
-        
-        
         extractor->compute( img_scene, keypoints_scene, descriptors_scene );
         
         // Matching descriptor vectors using FLANN matcher
         //FlannBasedMatcher matcher;
-
         std::vector< DMatch > matches;
         matcher->match( descriptors_object, descriptors_scene, matches );
         
-        
-        
+        //Quick calculation of max and min distances between keypoints
         double max_dist = 0; double min_dist = 100;
-        
-        //-- Quick calculation of max and min distances between keypoints
-        for( int i = 0; i < matches.size(); i++ ) {
+        for ( int i = 0; i < matches.size(); i++ ) {
             double dist = matches[i].distance;
             if( dist < min_dist ) min_dist = dist;
             if( dist > max_dist ) max_dist = dist;
         }
         
-//        printf("-- Max dist : %f \n", max_dist );
-//        printf("-- Min dist : %f \n", min_dist );
-        
-        //-- Draw only "good" matches (i.e. whose distance is less than 3*min_dist )
+        //Draw only "good" matches (i.e. whose distance is less than 3*min_dist )
         std::vector< DMatch > good_matches;
-        
         for( int i = 0; i < descriptors_object.rows; i++ ) {
             if( matches[i].distance < 3*min_dist ){
                 good_matches.push_back( matches[i]);
             }
         }
         
-        Mat img_matches;
-        drawMatches( img_object, keypoints_object, img_scene, keypoints_scene,
-                    good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
-                    std::vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
-        
-        //-- Localize the object
+        //Localize the object
         std::vector<Point2f> obj;
         std::vector<Point2f> scene;
         
-        
+        //Get the keypoints from the good matches
         for( int i = 0; i < good_matches.size(); i++ ) {
-            //-- Get the keypoints from the good matches
             obj.push_back( keypoints_object[ good_matches[i].queryIdx ].pt );
             scene.push_back( keypoints_scene[ good_matches[i].trainIdx ].pt );
         }
         
+        //Calculate Homagraphy
         if(good_matches.size() >= 4) {
             Mat H = findHomography( obj, scene, RANSAC );
             
-            //-- Get the corners from the image_1 ( the object to be "detected" )
-            
-            //    obj_corners[0] = cvPoint(0,0); obj_corners[1] = cvPoint( img_object.cols, 0 );
-            //    obj_corners[2] = cvPoint( img_object.cols, img_object.rows ); obj_corners[3] = cvPoint( 0, img_object.rows );
-       
+            //perspectiveTransform the points
             std::vector<Point2f> scene_corners(4);
             perspectiveTransform( obj_corners, scene_corners, H);
             
-            // -- Draw lines between the corners (the mapped object in the scene - image_2 )
+            //Draw lines between the matches points
             if(checkMatches) {
-            // -- Draw lines between the corners (the mapped object in the scene - image_2 )
+                Mat img_matches;
+                drawMatches( img_object, keypoints_object, img_scene, keypoints_scene,
+                            good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
+                            std::vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
+                
+            //Draw tracking bounding box on the "chacking matching screen"
                 line( img_matches, scene_corners[0] + Point2f( img_object.cols, 0), scene_corners[1] + Point2f( img_object.cols, 0), Scalar(0, 255, 0), 4 );
                 line( img_matches, scene_corners[1] + Point2f( img_object.cols, 0), scene_corners[2] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
                 line( img_matches, scene_corners[2] + Point2f( img_object.cols, 0), scene_corners[3] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
@@ -217,16 +190,8 @@ int main(int argc, const char * argv[]) {
                 
                 imshow( "Good Matches & Object detection", img_matches );
             }
-
-          // -- Draw lines between the corners (the mapped object in the scene - image_2 )
-//            line( img_matches, scene_corners[0] + Point2f( img_object.cols, 0), scene_corners[1] + Point2f( img_object.cols, 0), Scalar(0, 255, 0), 4 );
-//            line( img_matches, scene_corners[1] + Point2f( img_object.cols, 0), scene_corners[2] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
-//            line( img_matches, scene_corners[2] + Point2f( img_object.cols, 0), scene_corners[3] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
-//            line( img_matches, scene_corners[3] + Point2f( img_object.cols, 0), scene_corners[0] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
-//
-//            imshow( "Good Matches & Object detection", img_matches );
             
-            
+            //Draw tracking bounding box
             if(checkBoundingBox(scene_corners)) {
                 cvtColor(img_scene, img_scene, COLOR_GRAY2BGR);
                 line( img_scene, scene_corners[0] , scene_corners[1] , Scalar(0, 255, 0), 4 );
@@ -234,7 +199,7 @@ int main(int argc, const char * argv[]) {
                 line( img_scene, scene_corners[2] , scene_corners[3] , Scalar( 0, 255, 0), 4 );
                 line( img_scene, scene_corners[3] , scene_corners[0] , Scalar( 0, 255, 0), 4 );
             } else {
-                std::cout<<"Wierd BoundingBox"<<std::endl;
+                std::cout<<"Weird BoundingBox"<<std::endl;
             }
         
         } else {
@@ -242,7 +207,6 @@ int main(int argc, const char * argv[]) {
         }
         
         //-- Show detected matches
-        
         imshow( "After", img_scene );
         
         
