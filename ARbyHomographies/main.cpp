@@ -24,8 +24,7 @@ bool checkMatches = true;
 std::vector<Point2f> obj_corners;
 
 //Get the coordinates by mouse
-void onMouse( int event, int x, int y, int, void* )
-{
+void onMouse( int event, int x, int y, int, void* ) {
     if( event != CV_EVENT_LBUTTONDOWN )
         return;
     
@@ -35,13 +34,13 @@ void onMouse( int event, int x, int y, int, void* )
     
 }
 
-void eraseContentOutOfRoi(Mat & img, Point2f topLeft, Point2f bottomRight){
+void eraseContentOutOfRoi(Mat & img, Point2f topLeft, Point2f bottomRight) {
     for(int i = 0 ; i < img.rows ; i++){
         for(int j = 0 ; j < img.cols ; j++){
             if(j < topLeft.x || j > bottomRight.x || i < topLeft.y || i > bottomRight.y){
-                img.at<Vec3b>(i,j)[0] = 255;
-                img.at<Vec3b>(i, j)[1] = 255;
-                img.at<Vec3b>(i, j)[2] = 255;
+                img.at<Vec3b>(i,j)[0] = 0;
+                img.at<Vec3b>(i, j)[1] = 0;
+                img.at<Vec3b>(i, j)[2] = 0;
             }
         }
     }
@@ -58,8 +57,7 @@ int main(int argc, const char * argv[]) {
     Mat img_object = imread(fileNames[0], IMREAD_GRAYSCALE );
     resize(img_object, img_object, Size(640, 480));
     
-    if( !img_object.data)
-    {
+    if( !img_object.data) {
         std::cout<< " --(!) Error reading images " << std::endl; return -1;
     }
     
@@ -71,7 +69,7 @@ int main(int argc, const char * argv[]) {
     namedWindow("ori_image_col");
     setMouseCallback( "ori_image_col", onMouse, 0 );
     
-    while(obj_corners.size() < 4){
+    while(obj_corners.size() < 4) {
         
 
         //draw bounding box
@@ -100,6 +98,7 @@ int main(int argc, const char * argv[]) {
     
     cvtColor(img_object, img_object, COLOR_GRAY2BGR);
     eraseContentOutOfRoi(img_object, obj_corners[0], obj_corners[2]);
+    cvtColor(img_object, img_object, COLOR_BGR2GRAY);
     imshow( "temp", img_object );
     
     detector->detect( img_object, keypoints_object );
@@ -117,13 +116,12 @@ int main(int argc, const char * argv[]) {
     
     
     //loop through all the image in the file
-    for(size_t i = 1 ; i < fileNames.size() ; i++){
+    for(size_t i = 1 ; i < fileNames.size() ; i++) {
         //load next image
         Mat img_scene = imread(fileNames[i], IMREAD_GRAYSCALE );
         resize(img_scene, img_scene, Size(640, 480));
         
-        if( !img_scene.data)
-        {
+        if( !img_scene.data) {
             std::cout<< " --(!) Error reading images " << std::endl; return -1;
         }
         
@@ -142,11 +140,13 @@ int main(int argc, const char * argv[]) {
         std::vector< DMatch > matches;
         matcher->match( descriptors_object, descriptors_scene, matches );
         
+        
+        
         double max_dist = 0; double min_dist = 100;
         
         //-- Quick calculation of max and min distances between keypoints
-        for( int i = 0; i < descriptors_object.rows; i++ )
-        { double dist = matches[i].distance;
+        for( int i = 0; i < matches.size(); i++ ) {
+            double dist = matches[i].distance;
             if( dist < min_dist ) min_dist = dist;
             if( dist > max_dist ) max_dist = dist;
         }
@@ -157,8 +157,7 @@ int main(int argc, const char * argv[]) {
         //-- Draw only "good" matches (i.e. whose distance is less than 3*min_dist )
         std::vector< DMatch > good_matches;
         
-        for( int i = 0; i < descriptors_object.rows; i++ )
-        {
+        for( int i = 0; i < descriptors_object.rows; i++ ) {
             if( matches[i].distance < 3*min_dist ){
                 good_matches.push_back( matches[i]);
             }
@@ -174,14 +173,13 @@ int main(int argc, const char * argv[]) {
         std::vector<Point2f> scene;
         
         
-        for( int i = 0; i < good_matches.size(); i++ )
-        {
+        for( int i = 0; i < good_matches.size(); i++ ) {
             //-- Get the keypoints from the good matches
             obj.push_back( keypoints_object[ good_matches[i].queryIdx ].pt );
             scene.push_back( keypoints_scene[ good_matches[i].trainIdx ].pt );
         }
         
-        if(good_matches.size() >= 4){
+        if(good_matches.size() >= 4) {
             Mat H = findHomography( obj, scene, RANSAC );
             
             //-- Get the corners from the image_1 ( the object to be "detected" )
@@ -193,7 +191,7 @@ int main(int argc, const char * argv[]) {
             perspectiveTransform( obj_corners, scene_corners, H);
             
             // -- Draw lines between the corners (the mapped object in the scene - image_2 )
-            if(checkMatches){
+            if(checkMatches) {
             // -- Draw lines between the corners (the mapped object in the scene - image_2 )
                 line( img_matches, scene_corners[0] + Point2f( img_object.cols, 0), scene_corners[1] + Point2f( img_object.cols, 0), Scalar(0, 255, 0), 4 );
                 line( img_matches, scene_corners[1] + Point2f( img_object.cols, 0), scene_corners[2] + Point2f( img_object.cols, 0), Scalar( 0, 255, 0), 4 );
@@ -218,7 +216,7 @@ int main(int argc, const char * argv[]) {
             line( img_scene, scene_corners[2] , scene_corners[3] , Scalar( 0, 255, 0), 4 );
             line( img_scene, scene_corners[3] , scene_corners[0] , Scalar( 0, 255, 0), 4 );
         
-        }else{
+        } else {
             std::cout<< "don't have enough matches"  << std::endl;
         }
         
