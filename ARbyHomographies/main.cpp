@@ -46,6 +46,23 @@ void eraseContentOutOfRoi(Mat & img, Point2f topLeft, Point2f bottomRight) {
     }
 }
 
+//Check the output bounding box is reasonable or not
+bool checkBoundingBox(std::vector<Point2f> scene_corners) {
+    //Too small
+    if (scene_corners[1].x - scene_corners[0].x < 10 || scene_corners[3].y - scene_corners[0].y <10
+        || scene_corners[2].x - scene_corners[3].x < 10 || scene_corners[2].y - scene_corners[1].y <10) {
+        return false;
+    }
+    
+    //Still kind of rectangle
+    if (scene_corners[0].x < scene_corners[1].x && scene_corners[0].y < scene_corners[3].y
+        && scene_corners[2].x > scene_corners[3].x && scene_corners[2].y > scene_corners[1].y) {
+        return true;
+    }
+
+    return false;
+}
+
 int main(int argc, const char * argv[]) {
     
     //read file
@@ -210,11 +227,15 @@ int main(int argc, const char * argv[]) {
 //            imshow( "Good Matches & Object detection", img_matches );
             
             
-            cvtColor(img_scene, img_scene, COLOR_GRAY2BGR);
-            line( img_scene, scene_corners[0] , scene_corners[1] , Scalar(0, 255, 0), 4 );
-            line( img_scene, scene_corners[1] , scene_corners[2] , Scalar( 0, 255, 0), 4 );
-            line( img_scene, scene_corners[2] , scene_corners[3] , Scalar( 0, 255, 0), 4 );
-            line( img_scene, scene_corners[3] , scene_corners[0] , Scalar( 0, 255, 0), 4 );
+            if(checkBoundingBox(scene_corners)) {
+                cvtColor(img_scene, img_scene, COLOR_GRAY2BGR);
+                line( img_scene, scene_corners[0] , scene_corners[1] , Scalar(0, 255, 0), 4 );
+                line( img_scene, scene_corners[1] , scene_corners[2] , Scalar( 0, 255, 0), 4 );
+                line( img_scene, scene_corners[2] , scene_corners[3] , Scalar( 0, 255, 0), 4 );
+                line( img_scene, scene_corners[3] , scene_corners[0] , Scalar( 0, 255, 0), 4 );
+            } else {
+                std::cout<<"Wierd BoundingBox"<<std::endl;
+            }
         
         } else {
             std::cout<< "don't have enough matches"  << std::endl;
