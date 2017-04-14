@@ -121,6 +121,10 @@ int main(int argc, const char * argv[]) {
     
     //loop through all the image in the file
     for(size_t i = 1 ; i < fileNames.size() ; i++) {
+        //Timer
+        std::clock_t start;
+        double duration;
+        start = std::clock();
         
         //load next image
         Mat img_scene = imread(fileNames[i], IMREAD_GRAYSCALE );
@@ -209,6 +213,9 @@ int main(int argc, const char * argv[]) {
         //-- Show detected matches
         imshow( "After", img_scene );
         
+        //Output timer
+        duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+        std::cout<<"Time: "<< duration <<'\n';
         
         char key = waitKey(0);
         if(key == 'q'){
