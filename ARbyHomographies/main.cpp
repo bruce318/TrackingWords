@@ -68,7 +68,7 @@ int main(int argc, const char * argv[]) {
     
     //read file
     std::vector<String> fileNames;
-    String folder = "/Users/boyang/workspace/ARbyHomographies/src4/";
+    String folder = "/Users/boyang/workspace/ARbyHomographies/src2/";
     glob(folder, fileNames);
     
     //load first frame
@@ -96,7 +96,8 @@ int main(int argc, const char * argv[]) {
     
     //init detector
     int minHessian = 400;
-    Ptr<SURF> detector = SURF::create( minHessian );
+//    Ptr<SURF> detector = SURF::create( minHessian );
+    Ptr<ORB> detector = ORB::create( minHessian );
     std::vector<KeyPoint> keypoints_object, keypoints_scene;
     
     //adding of region of intrest
@@ -112,12 +113,15 @@ int main(int argc, const char * argv[]) {
     detector->detect( img_object, keypoints_object );
     
     //init extractor and compute
-    Ptr<SURF> extractor = SURF::create();
+//    Ptr<SURF> extractor = SURF::create();
+    Ptr<ORB> extractor = ORB::create();
     Mat descriptors_object, descriptors_scene;
     extractor->compute( img_object, keypoints_object, descriptors_object );
     
     //init matcher
-    Ptr<FlannBasedMatcher> matcher = FlannBasedMatcher::create();
+//    Ptr<FlannBasedMatcher> matcher = FlannBasedMatcher::create();
+    Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("BruteForce-Hamming");
+
     
     //loop through all the image in the file
     for(size_t i = 1 ; i < fileNames.size() ; i++) {
@@ -144,6 +148,8 @@ int main(int argc, const char * argv[]) {
         //FlannBasedMatcher matcher;
         std::vector< DMatch > matches;
         matcher->match( descriptors_object, descriptors_scene, matches );
+        
+        
         
         //Quick calculation of max and min distances between keypoints
         double max_dist = 0; double min_dist = 100;
