@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D66292198B9750C3E1BAF12C3152AA4B6D43379C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "1EA6D39F3BD6E1E9F3E19A20560CD0012FCA42BD" : 9223372036854775807,
+    "D66292198B9750C3E1BAF12C3152AA4B6D43379C" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E6AEAB3F-1FFF-446F-9BBC-0B9008F49463",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "1EA6D39F3BD6E1E9F3E19A20560CD0012FCA42BD" : "",
+    "D66292198B9750C3E1BAF12C3152AA4B6D43379C" : "ARbyHomographies\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ARbyHomographies",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ARbyHomographies.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:bruce318\/learngit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1EA6D39F3BD6E1E9F3E19A20560CD0012FCA42BD"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:bruce318\/TrackingWords.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D66292198B9750C3E1BAF12C3152AA4B6D43379C"
+    }
+  ]
+}

@@ -68,7 +68,7 @@ int main(int argc, const char * argv[]) {
     
     //read file
     std::vector<String> fileNames;
-    String folder = "/Users/boyang/workspace/ARbyHomographies/src3/";
+    String folder = "/Users/boyang/workspace/ARbyHomographies/src4/";
     glob(folder, fileNames);
     
     //load first frame
